@@ -2,8 +2,10 @@
 CREATE TABLE queries(
     query_id UUID  PRIMARY KEY,
     name VARCHAR(40),
+    data_product_id UUID,
     description TEXT,
-    query TEXT 
+    query TEXT,
+    default_parameters jsonb
 );
 
 -- +goose Down
