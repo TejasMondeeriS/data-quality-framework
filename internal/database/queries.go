@@ -52,24 +52,3 @@ func (db *DB) FetchQUeryString(queryID uuid.UUID) (string, error) {
 	err := db.Get(&query, sql, args...)
 	return query.Query, err
 }
-
-// func (db *DB) RunQuery(query string) ([]map[string]interface{}, error) {
-// 	rows, err := db.Queryx(query)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("failed to execute query: %w", err)
-// 	}
-// 	defer rows.Close()
-
-// 	var results []map[string]interface{}
-// 	for rows.Next() {
-// 		row := make(map[string]interface{})
-// 		err := rows.MapScan(row)
-// 		if err != nil {
-// 			return nil, fmt.Errorf("failed to scan row: %w", err)
-// 		}
-// 		results = append(results, row)
-// 	}
-
-// 	return results, nil
-
-// }

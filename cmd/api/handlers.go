@@ -115,6 +115,11 @@ func (app *application) validateAddQueryRequestParameters(
 		"Default Parameters",
 		"Default Parameters is required",
 	)
+	input.Validator.CheckField(
+		input.payload.DataProductID != uuid.Nil,
+		"Default Parameters",
+		"Default Parameters is required",
+	)
 
 	return input.Validator.HasErrors()
 

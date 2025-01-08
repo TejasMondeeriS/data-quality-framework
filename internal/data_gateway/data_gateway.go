@@ -25,7 +25,7 @@ func RunQuery(dataGatewayUrl string, query string) ([]map[string]interface{}, er
 		return nil, fmt.Errorf("error marshaling payload: %v", err)
 	}
 
-	req, err := http.NewRequest("POST", dataGatewayUrl, bytes.NewBuffer(jsonData))
+	req, err := http.NewRequest(http.MethodPost, dataGatewayUrl, bytes.NewBuffer(jsonData))
 	if err != nil {
 		return nil, fmt.Errorf("error creating request: %v", err)
 	}

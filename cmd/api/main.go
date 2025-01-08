@@ -38,7 +38,6 @@ func main() {
 }
 
 type config struct {
-	baseURL  string
 	host     string
 	httpPort int
 	db       struct {
@@ -93,14 +92,13 @@ func startWorker(cfg config, c client.Client, act *workflow.TemporalWorkflow) {
 func run(logger *slog.Logger) error {
 	var cfg config
 
-	cfg.baseURL = env.GetString("BASE_URL", "http://0.0.0.0:4444")
 	cfg.host = env.GetString("HOST", "0.0.0.0")
 	cfg.httpPort = env.GetInt("HTTP_PORT", 4444)
 	cfg.db.dsn = env.GetString("DB_CONNECTION_STRING", "postgres:pass@localhost:5432/postgres?sslmode=disable")
 	cfg.temporalHost = env.GetString("TEMPORAL_HOST", "localhost")
 	cfg.temporalPort = env.GetInt("TEMPORAL_PORT", 7233)
 	cfg.temporalTaskQueue = env.GetString("TEMPORAL_TASK_QUEUE", "data_quality_metrics")
-	cfg.temporalCronSchedule = env.GetString("TEMPORAL_CRON_SCHEDULE", "0 0 * * *") // Once every minute
+	cfg.temporalCronSchedule = env.GetString("TEMPORAL_CRON_SCHEDULE", "* * * * *") // Once every minute
 	cfg.dataGatewayURL = env.GetString("DATA_GATEWAY_URL", "https://blitz.xcaliberapis.com/xcaliber-dev/gateway/api/v2/query/rows")
 
 	showVersion := flag.Bool("version", false, "display version and exit")

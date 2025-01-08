@@ -29,10 +29,12 @@ func FormatQuery(query string, parametersJson json.RawMessage) (string, error) {
 			} else { // regular string
 				replacement = fmt.Sprintf("'%s'", strings.ReplaceAll(v, "'", "''"))
 			}
-		case int, int8, int16, int32, int64:
-			replacement = fmt.Sprintf("%d", v)
-		case float32, float64:
-			replacement = fmt.Sprintf("%f", v)
+		case float64: // JSON numbers are unmarshaled as float64 by default
+			if v == float64(int64(v)) { // Check if it's actually an integer value
+				replacement = fmt.Sprintf("%d", int64(v))
+			} else {
+				replacement = fmt.Sprintf("%f", v)
+			}
 		case bool:
 			replacement = strconv.FormatBool(v)
 		default:
