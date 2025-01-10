@@ -27,9 +27,6 @@ func (app *application) routes() http.Handler {
 	// Health
 	mux.Get("/health", app.HealthHandler)
 
-	mux.Post("/query", app.AddQuery)
-	mux.Get("/query", app.FetchAllQueries)
-
 	mux.Post("/run", app.RunQuey)
 
 	return mux

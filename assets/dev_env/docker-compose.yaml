@@ -10,17 +10,6 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     command:
       - --config.file=/etc/prometheus/prometheus.yml
-  postgres-server:
-    image: postgres
-    container_name: data-quality-postgres-server
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: pass
-      POSTGRES_DB: postgres
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
   postgresql:
     container_name: data-quality-temporal-postgresql
     environment:
@@ -79,5 +68,3 @@ networks:
   temporal-network:
     driver: bridge
     name: temporal-network
-volumes:
-  pgdata:
