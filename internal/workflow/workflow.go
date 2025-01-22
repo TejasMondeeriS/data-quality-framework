@@ -10,6 +10,7 @@ import (
 	"xcaliber/data-quality-metrics-framework/internal/metrics"
 	"xcaliber/data-quality-metrics-framework/internal/utility"
 
+	"go.temporal.io/sdk/temporal"
 	"go.temporal.io/sdk/workflow"
 )
 
@@ -22,6 +23,9 @@ func (twf *TemporalWorkflow) RunQueryWorkflow(ctx workflow.Context, queryJson js
 	// activity options
 	ao := workflow.ActivityOptions{
 		StartToCloseTimeout: time.Hour * 1,
+		RetryPolicy: &temporal.RetryPolicy{
+			MaximumAttempts: 3,
+		},
 	}
 	ctx = workflow.WithActivityOptions(ctx, ao)
 

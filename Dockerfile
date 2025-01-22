@@ -26,7 +26,7 @@ WORKDIR /app
 COPY --from=builder /app/bin/api /app/api
 
 # Expose the port the application will run on
-EXPOSE 4444
+EXPOSE 4446
 
 # Command to run the application
 ENTRYPOINT ["/app/api"]

@@ -22,7 +22,7 @@ import (
 // @version 1.0
 // @description Used to monitor data quality
 
-// @host localhost:4444
+// @host localhost:4446
 // @BasePath /
 func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}))
@@ -42,6 +42,7 @@ type config struct {
 	temporalPort      int
 	temporalTaskQueue string
 	dataGatewayURL    string
+	temporalNamespace string
 }
 
 type application struct {
@@ -71,10 +72,11 @@ func run(logger *slog.Logger) error {
 	var cfg config
 
 	cfg.host = env.GetString("HOST", "0.0.0.0")
-	cfg.httpPort = env.GetInt("HTTP_PORT", 4444)
+	cfg.httpPort = env.GetInt("HTTP_PORT", 4446)
 	cfg.temporalHost = env.GetString("TEMPORAL_HOST", "localhost")
 	cfg.temporalPort = env.GetInt("TEMPORAL_PORT", 7233)
 	cfg.temporalTaskQueue = env.GetString("TEMPORAL_TASK_QUEUE", "data_quality_metrics")
+	cfg.temporalNamespace = env.GetString("TEMPORAL_NAMESPACE", "testNamespace1")
 	cfg.dataGatewayURL = env.GetString("DATA_GATEWAY_URL", "https://blitz.xcaliberapis.com/xcaliber-dev/gateway/api/v2/query/rows")
 
 	showVersion := flag.Bool("version", false, "display version and exit")
@@ -93,7 +95,8 @@ func run(logger *slog.Logger) error {
 
 	// temporal client
 	c, err := client.Dial(client.Options{
-		HostPort: fmt.Sprintf("%s:%d", cfg.temporalHost, cfg.temporalPort),
+		HostPort:  fmt.Sprintf("%s:%d", "localhost", 7233),
+		Namespace: cfg.temporalNamespace,
 	})
 	if err != nil {
 		fmt.Println("Unable to create Temporal client", err)
