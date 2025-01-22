@@ -95,7 +95,7 @@ func run(logger *slog.Logger) error {
 
 	// temporal client
 	c, err := client.Dial(client.Options{
-		HostPort:  fmt.Sprintf("%s:%d", "localhost", 7233),
+		HostPort:  fmt.Sprintf("%s:%d", cfg.temporalHost, cfg.temporalPort),
 		Namespace: cfg.temporalNamespace,
 	})
 	if err != nil {
